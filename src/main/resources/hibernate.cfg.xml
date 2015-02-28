@@ -18,6 +18,12 @@
               </property>
               <property name="hibernate.connection.password">
               </property>
+              <property name="hibernate.hbm2ddl.auto">
+                     create
+              </property>
+              <property name="hibernate.show_sql">
+                     true
+              </property>
               <!-- List of XML mapping files -->
 
        </session-factory>
