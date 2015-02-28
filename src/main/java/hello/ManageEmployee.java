@@ -9,13 +9,15 @@ import java.util.Iterator;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class ManageEmployee {
     private static SessionFactory factory;
     public static void execute() { try{
-        factory = new Configuration().configure().buildSessionFactory(); }catch (Throwable ex) {
+        factory = new AnnotationConfiguration().
+                configure().addAnnotatedClass(Employee.class).buildSessionFactory(); }catch (Throwable ex) {
         System.err.println("Failed to create sessionFactory object." + ex); throw new ExceptionInInitializerError(ex);
     }
         ManageEmployee ME = new ManageEmployee();

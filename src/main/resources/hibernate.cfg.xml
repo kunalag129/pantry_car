@@ -19,6 +19,6 @@
               <property name="hibernate.connection.password">
               </property>
               <!-- List of XML mapping files -->
-              <mapping resource="Employee.hbm.xml"/>
+
        </session-factory>
 </hibernate-configuration>

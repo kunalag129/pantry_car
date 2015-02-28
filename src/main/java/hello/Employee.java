@@ -3,11 +3,25 @@ package hello;
 /**
  * Created by kunal.agarwal on 28/02/15.
  */
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "EMPLOYEE")
 public class Employee {
+    @Id @GeneratedValue
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "salary")
     private int salary;
+
     public Employee() {}
 
     public Employee(String fname, String lname, int salary) {
