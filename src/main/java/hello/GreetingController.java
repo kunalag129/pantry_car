@@ -16,4 +16,11 @@ public class GreetingController {
         return new Greeting(counter.incrementAndGet(),
                             String.format(template, name));
     }
+
+    @RequestMapping("/employee")
+    public Greeting employee() {
+        ManageEmployee.execute();
+        return new Greeting(counter.incrementAndGet(),
+                String.format(template, "hello"));
+    }
 }
