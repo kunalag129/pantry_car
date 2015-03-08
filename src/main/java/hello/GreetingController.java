@@ -25,8 +25,8 @@ public class GreetingController {
                 String.format(template, "hello"));
     }
 
-    @RequestMapping(value = "/post_call", method = RequestMethod.POST, produces="application/json")
-    public String post_call(@ModelAttribute Employee e, BindingResult result){
+    @RequestMapping(value = "/post_call", method = RequestMethod.POST)
+    public String post_call(@RequestBody Employee e, BindingResult result){
         System.out.println(e);
         if (result.hasErrors()) {
             return "petForm";
