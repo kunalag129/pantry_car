@@ -31,6 +31,8 @@ public class ApplicationContext {
 
     private void loadBeanClasses() {
         ctx = new AnnotationConfigApplicationContext();
+        ctx.register(CommonConfig.class);
+        ctx.refresh();
     }
 
     public static ApplicationContext getInstance() {
