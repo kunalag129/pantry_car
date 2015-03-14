@@ -16,7 +16,7 @@ apply plugin: 'spring-boot'
 
 jar {
     baseName = 'pantry_car'
-    version =  '0.1.0'
+    version = '0.1.0'
 }
 
 repositories {
@@ -32,6 +32,10 @@ dependencies {
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.34'
     compile group: 'net.saliman', name: 'gradle-liquibase-plugin', version: '1.0.1'
     testCompile("junit:junit")
+}
+
+springBoot {
+    mainClass = "Application"
 }
 
 task wrapper(type: Wrapper) {

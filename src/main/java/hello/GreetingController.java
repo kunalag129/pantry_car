@@ -1,9 +1,9 @@
 package hello;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 @RequestMapping("/base")
 @RestController
@@ -26,7 +26,7 @@ public class GreetingController {
     }
 
     @RequestMapping(value = "/post_call", method = RequestMethod.POST)
-    public String post_call(@RequestBody Employee e, BindingResult result){
+    public String post_call(@RequestBody Employee e, BindingResult result) {
         System.out.println(e);
         if (result.hasErrors()) {
             return "petForm";
