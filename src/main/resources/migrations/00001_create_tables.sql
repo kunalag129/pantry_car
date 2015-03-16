@@ -79,3 +79,10 @@ CREATE TABLE `restaurants` (
 
 ALTER TABLE contacts
 ADD `restaurant_id` int(5);
+
+CREATE TABLE `close_dates_restaurant_mapping` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `close_date_id` int(11) NOT NULL,
+  `restaurant_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
