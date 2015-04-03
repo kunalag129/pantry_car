@@ -30,14 +30,43 @@ dependencies {
     compile 'org.projectlombok:lombok:1.16.2'
     compile group: 'org.hibernate', name: 'hibernate-core', version: '4.3.8.Final'
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.34'
-    compile group: 'net.saliman', name: 'gradle-liquibase-plugin', version: '1.0.1'
     compile group: 'org.glassfish', name: 'javax.json', version: '1.0.2'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.5.0'
     testCompile("junit:junit")
 }
 
 springBoot {
     mainClass = "Application"
 }
+
+//def addUrlIfNotPresent( to, what ) {
+//    if ( !to || !what ) { return }
+//    def urls = to.URLs.toList()
+//    switch( what.class ) {
+//        case URL: what = new File( what.toURI() ); break
+//        case String: what = new File( what ); break
+//        case GString: what = new File( what.toString() ); break
+//        case File: break; // ok
+//        default:
+//            println "Don't know how to deal with $what as it is not an URL nor a File"
+//            System.exit( 1 )
+//    }
+//    if ( what.directory && !what.exists() ) { what.mkdirs() }
+//    def url = what.toURI().toURL()
+//    if ( !urls.contains( url ) && ( what.directory || !urls.find{ it.path.endsWith( what.name ) } ) ) {
+//        to.addURL( url )
+//    }
+//}
+//
+//compileJava.doLast {
+//    Instrumentation instrumentation = new Instrumentation()
+//    def projectMainClassesDir = sourceSets['main'].output.classesDir.getPath()
+//    def rootLoader = this.class.classLoader.rootLoader
+//    instrumentation.outputDirectory = projectMainClassesDir
+//    addUrlIfNotPresent rootLoader, projectMainClassesDir
+//    addUrlIfNotPresent Instrumentation.class.classLoader, projectMainClassesDir
+//    instrumentation.instrument()
+//}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.11'

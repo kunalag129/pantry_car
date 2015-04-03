@@ -15,4 +15,10 @@ public class LocationRequestParams {
     private int pincode;
     private int pincode1;
     private int pincode2;
+
+    private String name;
+
+    public Location buildObject(){
+        return new Location(this.address, this.city, this.state, this.pincode);
+    }
 }

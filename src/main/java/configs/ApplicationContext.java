@@ -3,9 +3,14 @@ package configs;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import lombok.Getter;
 import lombok.Setter;
+import restaurants.BankDetail;
+import restaurants.TaxDetail;
 import restaurants.Location;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import restaurants.Restaurant;
 
 import java.util.Locale;
 
@@ -18,6 +23,8 @@ public class ApplicationContext {
     private static ApplicationContext instance = null;
     private AnnotationConfigApplicationContext ctx = null;
     private SessionFactory dbFactory = null;
+    private Session session = null;
+    private Transaction transaction;
 
     private ApplicationContext()
     {
@@ -26,7 +33,11 @@ public class ApplicationContext {
     }
 
     private void loadHibernateFactory() {
-        dbFactory = new AnnotationConfiguration().configure().addAnnotatedClass(Location.class).buildSessionFactory();
+        dbFactory = new AnnotationConfiguration().addAnnotatedClass(Location.class)
+                .addAnnotatedClass(Restaurant.class)
+                .addAnnotatedClass(BankDetail.class)
+                .addAnnotatedClass(TaxDetail.class)
+                .configure().buildSessionFactory();
     }
 
     private void loadBeanClasses() {
@@ -40,6 +51,17 @@ public class ApplicationContext {
             instance = new ApplicationContext();
         }
         return instance;
+    }
+
+    public Session getSession(){
+        session = dbFactory.openSession();
+        transaction = session.beginTransaction();
+        return session;
+    }
+
+    public void closeSession() {
+        transaction.commit();
+        session.close();
     }
 
 }
