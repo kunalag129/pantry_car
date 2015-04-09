@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE", "org.hibernate:hibernate-core:4.3.8.Final", 'se.transmode.gradle:gradle-docker:1.2')
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE", "org.hibernate:hibernate-core:4.3.8.Final")
     }
 }
 
