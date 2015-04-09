@@ -51,4 +51,10 @@ public class RestaurantController {
         return "Updated tax details";
     }
 
+    @RequestMapping(value = "/test_app", method = RequestMethod.GET)
+    public @ResponseBody
+    String test_app() {
+        return "Yo Yo, app is up!! :)";
+    }
+
 }
