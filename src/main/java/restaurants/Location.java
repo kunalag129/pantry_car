@@ -25,10 +25,6 @@ public class Location extends Model {
 
     static ApplicationContext appContext = ApplicationContext.getInstance();
 
-    @Id @GeneratedValue
-    @Column(name = "id")
-    private int id;
-
     @Column(name = "address")
     private String address;
 
@@ -40,14 +36,6 @@ public class Location extends Model {
 
     @Column(name = "pincode")
     private int pincode;
-
-
-    public Location(String address, String city, String state, int pincode) {
-        this.address = address;
-        this.city = city;
-        this.state = state;
-        this.pincode = pincode;
-    }
 
     public static Location findOrCreate(Location loc)
     {

@@ -26,10 +26,6 @@ public class TaxDetail extends Model{
 
     static ApplicationContext appContext = ApplicationContext.getInstance();
 
-    @Id @GeneratedValue
-    @Column(name = "id")
-    private int id;
-
     @Column(name = "service_tax_number")
     private String serviceTaxNumber;
 
@@ -49,11 +45,11 @@ public class TaxDetail extends Model{
     private Boolean isValid;
 
 
-    @Column(name = "created_at")
-    public Timestamp createdAt;
-
-    @Column(name = "updated_at")
-    public Timestamp updatedAt;
+//    @Column(name = "created_at")
+//    public Timestamp createdAt;
+//
+//    @Column(name = "updated_at")
+//    public Timestamp updatedAt;
 
 
 

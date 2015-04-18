@@ -1,7 +1,8 @@
-package restaurants;
+package requestParams;
 
 import lombok.Getter;
 import lombok.Setter;
+import restaurants.Location;
 
 /**
  * Created by kunal.agarwal on 14/03/15.

@@ -10,14 +10,22 @@
             com.mysql.jdbc.Driver
         </property>
         <!-- Assume test is the database name -->
+        <!--<property name="hibernate.connection.url">-->
+            <!--jdbc:mysql://aa1ajl6w3ohriy9.cp7t2sczmqdd.us-west-2.rds.amazonaws.com/pantry_car-->
+        <!--</property>-->
+        <!--<property name="hibernate.connection.username">-->
+            <!--pantry-->
+        <!--</property>-->
+        <!--<property name="hibernate.connection.password">-->
+            <!--adminadmin-->
+        <!--</property>-->
         <property name="hibernate.connection.url">
-            jdbc:mysql://aa1ajl6w3ohriy9.cp7t2sczmqdd.us-west-2.rds.amazonaws.com/pantry_car
+            jdbc:mysql://localhost/pantry_car
         </property>
         <property name="hibernate.connection.username">
-            pantry
+            root
         </property>
         <property name="hibernate.connection.password">
-            adminadmin
         </property>
         <property name="hibernate.show_sql">
             true

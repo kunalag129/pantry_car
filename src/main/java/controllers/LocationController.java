@@ -1,4 +1,4 @@
-package restaurants;
+package controllers;
 
 /**
  * Created by kunal.agarwal on 14/03/15.
@@ -6,13 +6,15 @@ package restaurants;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import restaurants.Location;
 
 @RequestMapping("/locations")
 @RestController
 public class LocationController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public @ResponseBody Location post_call(@RequestBody Location loc, BindingResult result) {
+    public @ResponseBody
+    Location post_call(@RequestBody Location loc, BindingResult result) {
 //        Location l = loc.buildObject();
 //        JsonObjectBuilder stringBuilder = Json.createObjectBuilder();
 //        stringBuilder.add("Location", Json.createArrayBuilder().add(loc.addAddress()));

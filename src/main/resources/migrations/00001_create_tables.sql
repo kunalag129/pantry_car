@@ -125,3 +125,15 @@ DROP `bank_details_id`,DROP `tax_details_id`;
 INSERT into migrations VALUES (3);
 
 #=================================================Migration 3 ends=======================
+
+CREATE TABLE `social_auth_tokens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `token_type` varchar(20) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+INSERT into migrations VALUES (4);
+
+#=================================================Migration 4 ends=======================

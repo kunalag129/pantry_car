@@ -1,4 +1,4 @@
-package restaurants;
+package requestParams;
 
 import lombok.Getter;
 import lombok.Setter;

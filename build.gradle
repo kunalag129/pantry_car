@@ -51,7 +51,7 @@ dependencies {
 }
 
 springBoot {
-    mainClass = 'restaurants.Application'
+    mainClass = 'controllers.Application'
 }
 
 //def addUrlIfNotPresent( to, what ) {

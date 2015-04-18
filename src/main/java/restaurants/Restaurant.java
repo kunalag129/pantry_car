@@ -26,10 +26,6 @@ public class Restaurant extends Model{
 
     static ApplicationContext appContext = ApplicationContext.getInstance();
 
-    @Id @GeneratedValue
-    @Column(name = "id")
-    private int id;
-
     @Column(name = "internal_id")
     private String internalId;
 
@@ -58,7 +54,13 @@ public class Restaurant extends Model{
     private double deliveryCharges;
 
     @Column(name = "is_online")
-    private Boolean isOnline;
+    private boolean isOnline;
+
+//    @Column(name = "created_at")
+//    private Timestamp createdAt;
+//
+//    @Column(name = "updated_at")
+//    private Timestamp updatedAt;
 
 //    @Column(name = "location_id")
 //    private int locationId;

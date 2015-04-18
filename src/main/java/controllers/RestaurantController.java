@@ -1,7 +1,10 @@
-package restaurants;
+package controllers;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import restaurants.BankDetail;
+import restaurants.Restaurant;
+import restaurants.TaxDetail;
 
 /**
 * Created by kunal.agarwal on 24/03/15.

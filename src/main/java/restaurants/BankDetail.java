@@ -25,10 +25,6 @@ public class BankDetail extends Model {
 
     static ApplicationContext appContext = ApplicationContext.getInstance();
 
-    @Id @GeneratedValue
-    @Column(name = "id")
-    private int id;
-
     @Column(name = "bank_account_name")
     private String bankAccountName;
 
@@ -56,11 +52,11 @@ public class BankDetail extends Model {
     @JoinColumn(name="restaurant_id")
     private Restaurant restaurant;
 
-    @Column(name = "created_at")
-    public Timestamp createdAt;
-
-    @Column(name = "updated_at")
-    public Timestamp updatedAt;
+//    @Column(name = "created_at")
+//    public Timestamp createdAt;
+//
+//    @Column(name = "updated_at")
+//    public Timestamp updatedAt;
 
     @Transient
     @JsonIgnore
@@ -83,7 +79,9 @@ public class BankDetail extends Model {
                 .add(Restrictions.eq("restaurant", bankDetail.getRestaurant()))
                 .list();
         appContext.closeSession();
-        if(results.isEmpty())
+        if(results.isEmpty()) {
+            bankDetail.location = Location.findOrCreate(bankDetail.location);
             bankDetail.save();
+        }
     }
 }
