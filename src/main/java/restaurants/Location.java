@@ -4,6 +4,7 @@ package restaurants;
  * Created by kunal.agarwal on 14/03/15.
  */
 
+import common.Model;
 import configs.ApplicationContext;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

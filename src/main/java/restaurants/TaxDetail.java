@@ -5,6 +5,7 @@ package restaurants;
  */
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import common.Model;
 import configs.ApplicationContext;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +15,6 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -22,7 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tax_details")
-public class TaxDetail extends Model{
+public class TaxDetail extends Model {
 
     static ApplicationContext appContext = ApplicationContext.getInstance();
 
@@ -62,7 +62,7 @@ public class TaxDetail extends Model{
     }
 
     @JsonIgnore
-    @ManyToOne(cascade={CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name="restaurant_id")
     private Restaurant restaurant;
 

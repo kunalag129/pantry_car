@@ -17,15 +17,6 @@ public class RestaurantController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public @ResponseBody
     Restaurant post_call(@RequestBody Restaurant restaurant, BindingResult result) {
-//        Location l = new Location(loc.getAddress(), loc.getCity(), loc.getState(), loc.getPincode());
-//        JsonObjectBuilder stringBuilder = Json.createObjectBuilder();
-//        stringBuilder.add("id",restaurant.addRestaurant());
-////        return Location.addAddress(l);
-//        return stringBuilder.build().toString();
-
-        System.out.println("=====================================");
-        System.out.println(restaurant.getLocation().getCity());
-        System.out.println("-------------------------------------");
         return restaurant.addRestaurant();
     }
 

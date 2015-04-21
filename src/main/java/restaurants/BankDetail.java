@@ -5,6 +5,7 @@ package restaurants;
  */
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import common.Model;
 import configs.ApplicationContext;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,6 @@ import lombok.Setter;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.List;
 
 @Entity

@@ -5,6 +5,7 @@ import restaurants.BankDetail;
 import restaurants.Location;
 import restaurants.Restaurant;
 import restaurants.TaxDetail;
+import user.*;
 
 /**
  * Created by kunal.agarwal on 14/03/15.
@@ -30,4 +31,19 @@ public class CommonConfig {
     public TaxDetail taxDetail() {
         return new TaxDetail();
     }
+
+    @Bean
+    public Customer customer() { return  new Customer();}
+
+    @Bean
+    public SocialAuth socialAuth() { return new SocialAuth();}
+
+    @Bean
+    public GoogleLogin googleLogin() { return  new GoogleLogin();}
+
+    @Bean
+    public FacebookLogin facebookLogin() { return new FacebookLogin();}
+
+    @Bean
+    public Password password() { return new Password();}
 }

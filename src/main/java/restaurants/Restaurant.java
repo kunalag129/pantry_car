@@ -3,6 +3,7 @@ package restaurants;
 /**
  * Created by kunal.agarwal on 19/03/15.
  */
+import common.Model;
 import configs.ApplicationContext;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +23,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "restaurants")
-public class Restaurant extends Model{
+public class Restaurant extends Model {
 
     static ApplicationContext appContext = ApplicationContext.getInstance();
 
@@ -93,39 +94,12 @@ public class Restaurant extends Model{
         Session session = appContext.getSession();
         restaurant.updateTimeStamps();
         restaurant.setLocation(Location.findOrCreate(restaurant.getLocation()));
-
-        BankDetail bd = new BankDetail("aaa", "aaaa", "123455", "dsds", "324dsd");
-        bd.setLocation(restaurant.getLocation());
-
-        TaxDetail td = new TaxDetail("1234", "1233", "3344", "23", "2343");
-
-//        int loc1Id = (Integer) session.save(bd);
-
-
-
-//        Location loc = new Location("abc", "delhi", "up", 123456);
-////        loc.addAddress();
-//        restaurant.setLocation(loc);
-
-
         int locId = (Integer) session.save(restaurant);
         Restaurant temp = null;
         List<Restaurant> results = session.createCriteria(Restaurant.class).add(Restrictions.eq("id", locId)).list();
         temp = results.get(0);
         temp.setInternalId("RST"+locId);
-        bd.setRestaurant(temp);
-        td.setRestaurant(temp);
-        temp.bankDetails.add(bd);
-        temp.taxDetails.add(td);
-        System.out.println("=====================================");
-        System.out.println(temp);
-        System.out.println("-------------------------------------");
         session.update(temp);
-//        for(Iterator<Restaurant> it = results.iterator();it.hasNext();) {
-//            temp = it.next();
-//            System.out.println(temp);
-//        }
-
         appContext.closeSession();
         return temp;
     }

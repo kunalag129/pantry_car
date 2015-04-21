@@ -132,8 +132,43 @@ CREATE TABLE `social_auth_tokens` (
   `token` varchar(255) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
+  `bio` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
-INSERT into migrations VALUES (4);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #=================================================Migration 4 ends=======================
+
+ALTER TABLE social_auth_tokens
+ADD `user_id` int(5);
+
+INSERT into migrations VALUES (5);
+
+#=================================================Migration 5 ends=======================
+
+CREATE TABLE `customers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100),
+  `contact_no` varchar(20),
+  `email_id` varchar(50) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE (`email_id`)
+) ENGINE=InnoDB;
+INSERT into migrations VALUES (6);
+
+#=================================================Migration 6 ends=======================
+
+CREATE TABLE `passwords` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` INT(11),
+  `parent_type` varchar(20),
+  `password` varchar(100),
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+INSERT into migrations VALUES (7);
+
+#=================================================Migration 7 ends=======================
