@@ -135,6 +135,7 @@ CREATE TABLE `social_auth_tokens` (
   `bio` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT into migrations VALUES (4);
 
 #=================================================Migration 4 ends=======================
 
@@ -172,3 +173,10 @@ CREATE TABLE `passwords` (
 INSERT into migrations VALUES (7);
 
 #=================================================Migration 7 ends=======================
+
+ALTER TABLE customers
+ADD `remember_token` varchar(255);
+
+INSERT into migrations VALUES (8);
+
+#=================================================Migration 8 ends=======================

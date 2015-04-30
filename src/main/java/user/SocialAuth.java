@@ -1,12 +1,14 @@
 package user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import common.Model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
-import common.Model;
 
 import javax.persistence.*;
 
@@ -22,6 +24,8 @@ import javax.persistence.*;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({ "status", "responseCode", "error" })
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SocialAuth extends Model {
 
     @Column(name = "token")

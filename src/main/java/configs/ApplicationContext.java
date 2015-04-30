@@ -1,5 +1,6 @@
 package configs;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Session;
@@ -26,11 +27,14 @@ public class ApplicationContext {
     private SessionFactory dbFactory = null;
     private Session session = null;
     private Transaction transaction;
+    private JsonNodeFactory nodeFactory;
 
     private ApplicationContext()
     {
         loadBeanClasses();
         loadHibernateFactory();
+        nodeFactory = new JsonNodeFactory(false);
+
     }
 
     private void loadHibernateFactory() {

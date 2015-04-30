@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Session;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -22,6 +19,7 @@ public abstract class Model {
 
     static ApplicationContext appContext = ApplicationContext.getInstance();
 
+    @JsonIgnore
     @Id @GeneratedValue
     @Column(name = "id")
     protected int id;
@@ -31,6 +29,15 @@ public abstract class Model {
 
     @Column(name = "updated_at")
     protected Timestamp updatedAt;
+
+    @Transient
+    protected boolean status = true;
+
+    @Transient
+    protected int responseCode = 200;
+
+    @Transient
+    protected ResponseError error;
 
     public <T extends Model> T updateTimeStamps(){
         if(this.getCreatedAt()==null)
