@@ -1,6 +1,7 @@
 package configs;
 
 import org.springframework.context.annotation.*;
+import railways.Station;
 import restaurants.BankDetail;
 import restaurants.Location;
 import restaurants.Restaurant;
@@ -46,4 +47,7 @@ public class CommonConfig {
 
     @Bean
     public Password password() { return new Password();}
+
+    @Bean
+    public Station station() { return new Station();}
 }

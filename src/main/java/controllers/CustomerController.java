@@ -1,10 +1,18 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import common.ResponseError;
 import common.Utils;
+import external.railway.RailwayService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import user.Customer;
+
+import java.io.IOException;
+import java.security.SignatureException;
+import java.util.HashMap;
 
 /**
  * Created by kunal.agarwal on 19/04/15.
@@ -51,6 +59,40 @@ public class CustomerController {
         }
         else
             return customer;
+    }
+
+    @RequestMapping(value = "/test_rail", method = RequestMethod.GET)
+    public @ResponseBody
+    String get() throws SignatureException, IOException {
+        RestTemplate rest = new RestTemplate();
+        String url = "http://api.pantrycar.co.in/customers/get_customer_from_token?token=qOaQVzDMh3idSMZfcms4aKXkevL1C4bcNu7ZR1sRwnb7lydrHwumjKZYOWnE";
+        String result = rest.getForObject(url,String.class);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode actualObj = mapper.readTree(result);
+        System.out.println("=====================================");
+        System.out.println(result);
+        HashMap<String,String> a = new HashMap<String, String>();
+        a.put("pnr", "1234567890");
+        System.out.println(RailwayService.getPnrDetails("1234567890"));
+        a.put("pnr", "274790749");
+        JsonNode jn = RailwayService.getPnrDetails("274790749");
+        String fromStation = jn.get("from_station").get("code").toString();
+        String toStation = jn.get("to_station").get("code").toString();
+        System.out.println(fromStation);
+        System.out.println(toStation);
+
+        a = new HashMap<String, String>();
+        a.put("train", "12004");
+        System.out.println(RailwayService.getTrainRouteDetails("12004"));
+        System.out.println(jn);
+        System.out.println(actualObj.get("status").getClass());
+        System.out.println(actualObj.get("status"));
+        System.out.println(actualObj.get("error"));
+        System.out.println(actualObj.get("error").getClass());
+
+//        MyObject ob = new ObjectMapper().readValue(jsonString, MyObject.class);
+        System.out.println("-------------------------------------");
+        return result;
     }
 
 //    @RequestMapping(value = "/pass/{email_id:.+}", method = RequestMethod.GET)
