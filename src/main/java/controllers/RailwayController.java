@@ -1,14 +1,19 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import common.ResponseError;
 import configs.ApplicationContext;
 import external.railway.RailwayService;
 import helpers.RailwayServiceHelper;
 import org.springframework.web.bind.annotation.*;
 import railways.Station;
+import railways.Train;
 import responseParams.PnrDetails;
+import responseParams.StationListDetails;
+import responseParams.TrainListDetails;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by kunal.agarwal on 05/05/15.
@@ -24,44 +29,53 @@ public class RailwayController {
     public @ResponseBody
     PnrDetails getStationsFromPnr(@PathVariable("pnr") String pnr) {
         JsonNode pnrDetails = RailwayService.getPnrDetails(pnr);
-//        String fromStation = pnrDetails.get("from_station").get("code").textValue();
-//        String toStation = pnrDetails.get("to_station").get("code").textValue();
+        String srcStationCode = pnrDetails.get("from_station").get("code").textValue().trim();
+        String destStationCode = pnrDetails.get("to_station").get("code").textValue().trim();
+        String srcStationName = pnrDetails.get("from_station").get("name").textValue();
+        String destStationName = pnrDetails.get("to_station").get("name").textValue();
         String trainNum = pnrDetails.get("train_num").textValue();
-        String fromStationCode = "TDL";
-        String toStationCode = "CNB";
-        String fromStationName = "Tundla Junction";
-        String toStationName = "Kanpur Central";
         String trainName = pnrDetails.get("train_name").textValue();
-        JsonNode trainRoute = RailwayService.getTrainRouteDetails("12004");
-        ArrayList<Station> stations = RailwayServiceHelper.getStationBetweenFromAndTo(trainRoute, fromStationCode, toStationCode);
-        return new PnrDetails(pnr, trainNum, trainName, fromStationCode, toStationCode, fromStationName, toStationName, stations);
+        String doj = pnrDetails.get("doj").textValue();
+        JsonNode trainRoute = RailwayService.getTrainRouteDetails(trainNum);
+        ArrayList<Station> stations = RailwayServiceHelper.getStationBetweenSourceAndDestinaton(trainRoute, srcStationCode, destStationCode);
+        return new PnrDetails(pnr, trainNum, trainName, srcStationCode, destStationCode, srcStationName, destStationName, doj, stations);
+    }
 
-//        JsonNodeFactory nodeFactory = appContext.getNodeFactory();
-//        ObjectWriter ow = new ObjectMapper().writer();
-//        ArrayNode stns = nodeFactory.arrayNode();
-//        for(int i = 0; i<stations.size(); i++) {
-//            String node = null;
-//            try {
-//                node = ow.writeValueAsString(stations.get(i));
-//            } catch (JsonProcessingException e) {
-//                e.printStackTrace();
-//            }
-//            stns.add(node);
-//        }
-//        ObjectNode result = nodeFactory.objectNode();
-//        result.put("pnr", pnr);
-//        result.put("trainNo", trainNum);
-//        result.put("trainName", pnrDetails.get("train_name").textValue());
-//        result.put("fromStationCode", fromStationCode);
-//        result.put("toStationCode", toStationCode);
-//        result.put("fromStationName", fromStationName);
-//        result.put("toStationName", toStationName);
-//        result.set("stations", stns);
-//        ArrayNode an = nodeFactory.arrayNode();
-//
-//        for(int i = 0; i<stations.size(); i++)
-//            an.add(stations.get(i));
-//
-//        return result.toString();
+    @RequestMapping(value = "/get_trains_between_locations", method = RequestMethod.GET)
+    public @ResponseBody
+    TrainListDetails getTrainsBetweenLocations(@RequestParam("src") String sourceCode, @RequestParam("dest") String destinationCode, @RequestParam("date") String date) {
+        HashMap<String, String> details = new HashMap<String, String>();
+        details.put("fscode", sourceCode);
+        details.put("tscode", destinationCode);
+        details.put("date", date);
+        JsonNode trainList = RailwayService.getTrainsBetweenLocations(details);
+        String src = trainList.get("from_station").get("name").textValue();
+        String dest = trainList.get("to_station").get("name").textValue();
+        return new TrainListDetails(src, dest, sourceCode, destinationCode, date, RailwayServiceHelper.fetchTrainDetails(trainList));
+    }
+
+    @RequestMapping(value = "/get_stations_between_locations", method = RequestMethod.GET)
+    public @ResponseBody
+    StationListDetails getStationsBetweenLocations(@RequestParam("src") String sourceCode, @RequestParam("dest") String destinationCode, @RequestParam("date") String date, @RequestParam("train") String trainNum) {
+        HashMap<String, String> details = new HashMap<String, String>();
+        details.put("fscode", sourceCode);
+        details.put("tscode", destinationCode);
+        details.put("date", date);
+        JsonNode trainList = RailwayService.getTrainsBetweenLocations(details);
+        String src = trainList.get("from_station").get("name").textValue();
+        String dest = trainList.get("to_station").get("name").textValue();
+        ArrayList<Train> trains = RailwayServiceHelper.fetchTrainDetails(trainList);
+        boolean isTrainPresent = RailwayServiceHelper.isTrainPresent(trains, trainNum);
+        if(isTrainPresent == false){
+            StationListDetails error = new StationListDetails();
+            error.setStatus(false);
+            error.setResponseCode(400);
+            error.setError(new ResponseError(404, "No such Train number present"));
+            return error;
+        }
+        JsonNode trainRoute = RailwayService.getTrainRouteDetails(trainNum);
+        String trainName = trainRoute.get("train").get("name").textValue();
+        ArrayList<Station> stations = RailwayServiceHelper.getStationBetweenSourceAndDestinaton(trainRoute, sourceCode, destinationCode);
+        return new StationListDetails(src, dest, sourceCode, destinationCode, date, trainNum, trainName, stations);
     }
 }

@@ -18,6 +18,8 @@ public class RailwayService {
 
     final static private String[] getTrainRouteParams = new String[]{"train", "format", "pbapikey", "pbapisign"};
 
+    final static private String[] getTrainBetweenLocationsParams = new String[]{"fscode", "tscode", "date", "format", "pbapikey", "pbapisign"};
+
     final static private String erailApiKey = "cca37432-1450-46f8-99f8-b00ff66f09e8";
 
     final static private String railwayApiKey = "66385";
@@ -28,7 +30,7 @@ public class RailwayService {
 
     final static private RestTemplate rest = new RestTemplate();
 
-    final static private String railPnrApiUrl = "http://railpnrapi.com/test/";
+    final static private String railPnrApiUrl = "http://railpnrapi.com/api/";
 
 
     static {
@@ -36,12 +38,20 @@ public class RailwayService {
     }
 
     public static JsonNode getPnrDetails(String pnr) {
+        JsonNode pnrDetails = null;
         HashMap<String,String> details = new HashMap<String, String>();
         details.put("pnr", pnr);
         details = modifyAndGetHmac(details);
         String url = railPnrApiUrl + "check_pnr" + getUrlString(getPnrParams, details);
-        String result = rest.getForObject(url,String.class);
-        return getJsonNodeFromJson(result);
+        int responseCode = 503;
+        int retryCount=0;
+        while(responseCode!=200 && retryCount < 5) {
+            String result = rest.getForObject(url, String.class);
+            pnrDetails = getJsonNodeFromJson(result);
+            responseCode = pnrDetails.get("response_code").asInt();
+            retryCount++;
+        }
+        return pnrDetails;
     }
 
     public static JsonNode getTrainRouteDetails(String trainNo) {
@@ -52,6 +62,14 @@ public class RailwayService {
         String result = rest.getForObject(url,String.class);
         return getJsonNodeFromJson(result);
     }
+
+    public static JsonNode getTrainsBetweenLocations(HashMap<String, String> details) {
+        details = modifyAndGetHmac(details);
+        String url = railPnrApiUrl + "trains_between_stations" + getUrlString(getTrainBetweenLocationsParams, details);
+        String result = rest.getForObject(url,String.class);
+        return getJsonNodeFromJson(result);
+    }
+
 
     private static JsonNode getJsonNodeFromJson(String result) {
         ObjectMapper mapper = new ObjectMapper();

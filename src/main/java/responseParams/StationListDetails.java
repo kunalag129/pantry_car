@@ -10,23 +10,21 @@ import railways.Station;
 import java.util.ArrayList;
 
 /**
- * Created by kunal.agarwal on 06/05/15.
+ * Created by kunal.agarwal on 08/05/15.
  */
 
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PnrDetails extends ResponseParams{
-
-    private String pnr;
-    private String trainNum;
-    private String trainName;
-    private String srcStationCode;
-    private String destStationCode;
+public class StationListDetails extends ResponseParams{
     private String srcStationName;
     private String destStationName;
-    private String doj;
+    private String srcStationCode;
+    private String destStationCode;
+    private String date;
+    private String trainNum;
+    private String trainName;
     private ArrayList<Station> stations;
-
 }

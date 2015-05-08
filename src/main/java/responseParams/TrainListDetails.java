@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import railways.Station;
+import railways.Train;
 
 import java.util.ArrayList;
 
@@ -17,16 +17,13 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PnrDetails extends ResponseParams{
+public class TrainListDetails extends ResponseParams{
 
-    private String pnr;
-    private String trainNum;
-    private String trainName;
-    private String srcStationCode;
-    private String destStationCode;
     private String srcStationName;
     private String destStationName;
-    private String doj;
-    private ArrayList<Station> stations;
+    private String srcStationCode;
+    private String destStationCode;
+    private String date;
+    private ArrayList<Train> trains;
 
 }
