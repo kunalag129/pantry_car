@@ -6,6 +6,7 @@ import configs.ApplicationContext;
 
 import java.security.SignatureException;
 import java.sql.Timestamp;
+import java.text.Normalizer;
 import java.util.*;
 
 /**
@@ -41,5 +42,11 @@ public class Utils {
             dataString += params.get(it.next()).toLowerCase();
         }
         return dataString;
+    }
+
+    public static String toPrettyURL(String string) {
+        return Normalizer.normalize(string.toLowerCase(), Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                .replaceAll("[^\\p{Alnum}]+", "-");
     }
 }

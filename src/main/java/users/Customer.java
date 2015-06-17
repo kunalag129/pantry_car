@@ -1,4 +1,4 @@
-package user;
+package users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import orders.Order;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -53,6 +54,18 @@ public class Customer extends Model {
 
     @Column(name = "remember_token")
     private String rememberToken;
+
+    @Column(name = "verification_token")
+    private String verificationToken;
+
+    @Column(name = "is_verified")
+    private boolean isVerified;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="customer", cascade={CascadeType.ALL})
+    private List<Order> orders;
+
+
 
 
     @Transient
@@ -144,6 +157,11 @@ public class Customer extends Model {
 
     public void updateRememberToken(String token) {
         this.setRememberToken(token);
+        this.update();
+    }
+
+    public void updateVerificationToken(String token) {
+        this.setVerificationToken(token);
         this.update();
     }
 

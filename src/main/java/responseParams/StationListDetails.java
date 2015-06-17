@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import railways.Station;
+import railways.TrainStoppage;
 
 import java.util.ArrayList;
 
@@ -26,5 +26,5 @@ public class StationListDetails extends ResponseParams{
     private String date;
     private String trainNum;
     private String trainName;
-    private ArrayList<Station> stations;
+    private ArrayList<TrainStoppage> trainStoppages;
 }

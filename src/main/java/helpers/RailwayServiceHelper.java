@@ -2,7 +2,7 @@ package helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import railways.Station;
+import railways.TrainStoppage;
 import railways.Train;
 
 import java.util.ArrayList;
@@ -12,32 +12,32 @@ import java.util.ArrayList;
  */
 public class RailwayServiceHelper {
 
-    private static ArrayList<Station> stationsBetweenAandB(ArrayList<Station> allStations, String a, String b) {
+    private static ArrayList<TrainStoppage> stationsBetweenAandB(ArrayList<TrainStoppage> allTrainStoppages, String a, String b) {
 
         int i = 0;
         int startIndex = 0;
-        int endIndex = allStations.size()-1;
-        while(!allStations.get(i).getStationCode().equals(a))
+        int endIndex = allTrainStoppages.size()-1;
+        while(!allTrainStoppages.get(i).getStationCode().equals(a))
             i++;
         startIndex = i;
-        while (!allStations.get(i).getStationCode().equals(b))
+        while (!allTrainStoppages.get(i).getStationCode().equals(b))
             i++;
         endIndex = i+1;
-        return new ArrayList<Station>(allStations.subList(startIndex, endIndex));
+        return new ArrayList<TrainStoppage>(allTrainStoppages.subList(startIndex, endIndex));
     }
 
-    public static ArrayList<Station> getStationList(JsonNode trainDetails) {
+    public static ArrayList<TrainStoppage> getStationList(JsonNode trainDetails) {
         ArrayNode routeStations = (ArrayNode)trainDetails.get("train").get("route");
-        ArrayList<Station> stations = new ArrayList<Station>();
+        ArrayList<TrainStoppage> trainStoppages = new ArrayList<TrainStoppage>();
         for(int i = 0; i < routeStations.size(); i++) {
             JsonNode station = routeStations.get(i);
-            stations.add(getStation(station));
+            trainStoppages.add(getStation(station));
         }
-        return stations;
+        return trainStoppages;
     }
 
-    private static Station getStation(JsonNode station) {
-        Station temp = new Station();
+    private static TrainStoppage getStation(JsonNode station) {
+        TrainStoppage temp = new TrainStoppage();
         temp.setArrivalTime(station.get("arrival_time").textValue());
         temp.setDepartureTime(station.get("departure_time").textValue());
         temp.setStoppageTime(station.get("stop_time").textValue());
@@ -47,7 +47,7 @@ public class RailwayServiceHelper {
         return temp;
     }
 
-    public static ArrayList<Station> getStationBetweenSourceAndDestinaton(JsonNode trainDetails, String source, String destination) {
+    public static ArrayList<TrainStoppage> getStationBetweenSourceAndDestinaton(JsonNode trainDetails, String source, String destination) {
         return stationsBetweenAandB(getStationList(trainDetails), source, destination);
     }
 

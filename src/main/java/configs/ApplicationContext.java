@@ -3,18 +3,19 @@ package configs;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import lombok.Getter;
 import lombok.Setter;
+import orders.Offer;
+import orders.Order;
+import orders.OrderItem;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import restaurants.BankDetail;
-import restaurants.Location;
-import restaurants.Restaurant;
-import restaurants.TaxDetail;
-import user.*;
+import railways.Station;
+import restaurants.*;
+import users.*;
 
 /**
  * Created by kunal.agarwal on 14/03/15.
@@ -47,6 +48,11 @@ public class ApplicationContext {
                 .addAnnotatedClass(GoogleLogin.class)
                 .addAnnotatedClass(FacebookLogin.class)
                 .addAnnotatedClass(Password.class)
+                .addAnnotatedClass(Menu.class)
+                .addAnnotatedClass(Offer.class)
+                .addAnnotatedClass(Order.class)
+                .addAnnotatedClass(OrderItem.class)
+                .addAnnotatedClass(Station.class)
                 .configure();
         ServiceRegistry builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
         dbFactory = configuration.buildSessionFactory(builder);

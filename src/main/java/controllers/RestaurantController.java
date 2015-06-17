@@ -2,9 +2,15 @@ package controllers;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import railways.Station;
+import responseParams.RestaurantListDetails;
 import restaurants.BankDetail;
+import restaurants.Menu;
 import restaurants.Restaurant;
 import restaurants.TaxDetail;
+
+import java.util.List;
+import java.util.Map;
 
 /**
 * Created by kunal.agarwal on 24/03/15.
@@ -20,19 +26,22 @@ public class RestaurantController {
         return restaurant.addRestaurant();
     }
 
-//    @RequestMapping(value = "/", method = RequestMethod.POST)
-//    public @ResponseBody
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public @ResponseBody
+    Restaurant getRestaurant(@RequestParam("url") String url) {
+        return Restaurant.getRestaurant("url", url, true);
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody
     Restaurant getRestaurantDetails(@PathVariable("id") String id) {
-        return Restaurant.getRestaurant(id, true);
+        return Restaurant.getRestaurant("internalId", id, true);
     }
 
     @RequestMapping(value = "/{id}/update_bank_details", method = RequestMethod.POST)
     public @ResponseBody
     String updateBankDetails(@PathVariable("id") String id, @RequestBody BankDetail bankDetail) {
-        Restaurant restaurant = Restaurant.getRestaurant(id,false);
+        Restaurant restaurant = Restaurant.getRestaurant("internalId", id,false);
         restaurant.updateBankDetails(bankDetail);
         return "Updated bank details";
     }
@@ -40,7 +49,7 @@ public class RestaurantController {
     @RequestMapping(value = "/{id}/update_tax_details", method = RequestMethod.POST)
     public @ResponseBody
     String updateTaxDetails(@PathVariable("id") String id, @RequestBody TaxDetail taxDetail) {
-        Restaurant restaurant = Restaurant.getRestaurant(id,false);
+        Restaurant restaurant = Restaurant.getRestaurant("internalId", id,false);
         restaurant.updateTaxDetails(taxDetail);
         return "Updated tax details";
     }
@@ -51,4 +60,44 @@ public class RestaurantController {
         return "Yo Yo, app is up!! :)";
     }
 
+    @RequestMapping(value="/{id}/menu", method = RequestMethod.POST)
+    public @ResponseBody
+    Menu setMenu(@PathVariable("id") String id,@RequestBody Map<String, Object> menu){
+
+//        String abc="";
+//        try {
+//
+//
+//            abc = new ObjectMapper().writeValueAsString(menu.get("menu"));
+//            System.out.println("=====================================");
+//            System.out.println(abc);
+//            System.out.println(menu.get("menu").toString());
+//            System.out.println(menu.get("menu"));
+//            System.out.println("-------------------------------------");
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+//        Menu menu1 = new Menu();
+//        menu1.setRestaurant(null);
+//        menu1.setRestaurant_internal_id(id);
+//        menu1.setMenuDetails(abc);
+//        menu1.setMenu(new Json(abc));
+//        return menu1;
+        return Menu.setMenu(id,menu);
+    }
+
+    @RequestMapping(value="/{id}/menu", method = RequestMethod.GET)
+    public @ResponseBody
+    Menu getMenu(@PathVariable("id") String id) {
+        return Menu.getMenuByRestaurantId(id);
+    }
+
+    @RequestMapping(value = "/get_restaurants_by_station/{station_code}", method = RequestMethod.GET)
+    public @ResponseBody
+    RestaurantListDetails getRestaurantsByStation(@PathVariable("station_code") String stationCode) {
+        Station station = Station.getStation(stationCode);
+        List<Restaurant> restaurants = station.getRestaurants();
+        RestaurantListDetails restaurntListDetails = new RestaurantListDetails(stationCode, restaurants);
+        return restaurntListDetails;
+    }
 }

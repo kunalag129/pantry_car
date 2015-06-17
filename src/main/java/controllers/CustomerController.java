@@ -8,7 +8,7 @@ import external.railway.RailwayService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import user.Customer;
+import users.Customer;
 
 import java.io.IOException;
 import java.security.SignatureException;
@@ -47,6 +47,31 @@ public class CustomerController {
         else {
             customer.updateRememberToken(cust.getRememberToken());
             return Utils.giveResponse(204);
+        }
+    }
+
+    @RequestMapping(value = "/{emailId:.+}/update_verification_token", method = RequestMethod.PUT)
+    public @ResponseBody
+    String setVerificationToken(@PathVariable("emailId") String emailId, @RequestBody Customer cust) {
+        Customer customer = Customer.getCustomerDetails("emailId",emailId);
+        if(customer == null)
+            return ResponseError.notFound();
+        else {
+            customer.updateVerificationToken(cust.getVerificationToken());
+            return Utils.giveResponse(204);
+        }
+    }
+
+    @RequestMapping(value = "/set_customer_verified", method = RequestMethod.PUT)
+    public @ResponseBody
+    Customer setCustomerVerified(@RequestBody Customer cust) {
+        Customer customer = Customer.getCustomerDetails("verificationToken",cust.getVerificationToken());
+        if(customer == null)
+            return new Customer().updateResponseAttributes(false, 404, "Record not found");
+        else {
+            customer.setVerified(true);
+            customer.update();
+            return customer;
         }
     }
 

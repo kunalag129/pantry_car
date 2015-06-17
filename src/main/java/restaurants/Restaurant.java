@@ -3,26 +3,32 @@ package restaurants;
 /**
  * Created by kunal.agarwal on 19/03/15.
  */
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import common.Model;
+import common.Utils;
 import configs.ApplicationContext;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import orders.Order;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import railways.Station;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "restaurants")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Restaurant extends Model {
 
     static ApplicationContext appContext = ApplicationContext.getInstance();
@@ -40,10 +46,10 @@ public class Restaurant extends Model {
     private String contactNo;
 
     @Column(name = "open_time")
-    private int openTime;
+    private Time openTime;
 
     @Column(name = "close_time")
-    private int closeTime;
+    private Time closeTime;
 
     @Column(name = "sla_details")
     private int slaDetails;
@@ -56,6 +62,9 @@ public class Restaurant extends Model {
 
     @Column(name = "is_online")
     private boolean isOnline;
+
+    @Column(name = "friendly_url")
+    private String url;
 
 //    @Column(name = "created_at")
 //    private Timestamp createdAt;
@@ -73,10 +82,24 @@ public class Restaurant extends Model {
 
 
     @OneToMany(mappedBy="restaurant", cascade={CascadeType.ALL})
-    private Set<BankDetail> bankDetails = new HashSet<BankDetail>();
+    private List<BankDetail> bankDetails = new ArrayList<BankDetail>();
 
     @OneToMany(mappedBy="restaurant", cascade={CascadeType.ALL})
-    private Set<TaxDetail> taxDetails = new HashSet<TaxDetail>();
+    private List<TaxDetail> taxDetails = new ArrayList<TaxDetail>();
+
+    @JsonIgnore
+    @OneToOne(mappedBy="restaurant")
+    private Menu menu;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="restaurant", cascade={CascadeType.ALL})
+    private List<Order> orders;
+
+    @JsonIgnore
+    @ManyToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name="station_id")
+    private Station station;
+
 
     public Restaurant(String name, double distance, String contactNo, int openTime, int closeTime, int slaDetails, double minimumOrder, double deliveryCharges, boolean isOnline) {
         this.name = name;
@@ -99,6 +122,7 @@ public class Restaurant extends Model {
         List<Restaurant> results = session.createCriteria(Restaurant.class).add(Restrictions.eq("id", locId)).list();
         temp = results.get(0);
         temp.setInternalId("RST"+locId);
+        temp.setUrl(Utils.toPrettyURL(temp.getName()+" "+temp.getId()));
         session.update(temp);
         appContext.closeSession();
         return temp;
@@ -108,13 +132,14 @@ public class Restaurant extends Model {
         return saveToDb(this);
     }
 
-    public static Restaurant getRestaurant(String id, boolean detailView) {
+    public static Restaurant getRestaurant(String criteria, String id, boolean detailView) {
         Session session = appContext.getSession();
-        Restaurant rest = (Restaurant)session.createCriteria(Restaurant.class).add(Restrictions.eq("internalId", id)).list().get(0);
+        Restaurant rest = (Restaurant)session.createCriteria(Restaurant.class).add(Restrictions.eq(criteria, id)).list().get(0);
         if(detailView==true) {
             Hibernate.initialize(rest.getBankDetails());
             Hibernate.initialize(rest.getTaxDetails());
             Hibernate.initialize(rest.getLocation());
+            Hibernate.initialize(rest.getStation());
         }
         appContext.closeSession();
         return rest;

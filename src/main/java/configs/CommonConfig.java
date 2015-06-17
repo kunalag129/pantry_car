@@ -1,12 +1,13 @@
 package configs;
 
-import org.springframework.context.annotation.*;
+import orders.Offer;
+import orders.Order;
+import orders.OrderItem;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import railways.Station;
-import restaurants.BankDetail;
-import restaurants.Location;
-import restaurants.Restaurant;
-import restaurants.TaxDetail;
-import user.*;
+import restaurants.*;
+import users.*;
 
 /**
  * Created by kunal.agarwal on 14/03/15.
@@ -47,6 +48,18 @@ public class CommonConfig {
 
     @Bean
     public Password password() { return new Password();}
+
+    @Bean
+    public Menu menu() { return  new Menu();}
+
+    @Bean
+    public Offer offer() { return new Offer();}
+
+    @Bean
+    public Order order() { return new Order();}
+
+    @Bean
+    public OrderItem orderItem() { return new OrderItem();}
 
     @Bean
     public Station station() { return new Station();}

@@ -68,3 +68,24 @@
 - restaurant_id
 
 
+Orders
+-Order internal id
+-customer id
+-status - created, approved, dispatched, delivered, cancelled
+-comments
+-amount_billed
+-amount_received
+-mode_of_payment
+-order_datetime
+-station_id
+-restaurant_id
+-customer_instruction
+-created_at
+-updated_at
+
+order_item
+item_name
+item cost
+item description
+item quantity
+

@@ -15,10 +15,11 @@ CREATE TABLE `locations` (
 
 CREATE TABLE `stations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `station_full_name` varchar(100) NOT NULL,
-  `state` varchar(20) NOT NULL,
-  `station_short_name` varchar(50) NOT NULL,
-  `station_code` int(11) NOT NULL,
+  `station_full_name` varchar(100),
+  `state` varchar(20),
+  `station_short_name` varchar(50),
+  `station_code` VARCHAR(11),
+  `is_active` tinyint(1) DEFAULT 1,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -180,3 +181,105 @@ ADD `remember_token` varchar(255);
 INSERT into migrations VALUES (8);
 
 #=================================================Migration 8 ends=======================
+
+ALTER TABLE customers
+ADD `verification_token` varchar(255) DEFAULT NULL;
+
+ALTER TABLE customers
+ADD `is_verified` tinyint(1) DEFAULT 0;
+
+INSERT into migrations VALUES (9);
+
+#=================================================Migration 9 ends=======================
+
+CREATE TABLE `menus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `restaurant_id` INT(11),
+  `menu_json` TEXT,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+INSERT into migrations VALUES (10);
+
+#=================================================Migration 10 ends=======================
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` INT(11),
+  `restaurant_id` INT(11),
+  `station_id` INT(11),
+  `order_date` DATETIME,
+  `delivery_date` DATETIME,
+  `internal_id` VARCHAR(20),
+  `status` VARCHAR(20),
+  `comments` VARCHAR(255),
+  `customer_instruction` VARCHAR(255),
+  `mode_of_payment` VARCHAR(10),
+  `amount_billed` decimal(18,2),
+  `amount_received` DECIMAL(18,2),
+  `pnr` VARCHAR(20),
+  `train_no` VARCHAR(10),
+  `seat_no` VARCHAR(20),
+  `offer_id` INT(11) DEFAULT NULL,
+  `discount_amount` DECIMAL(18,2),
+  `discount_reason` VARCHAR(50),
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+
+CREATE TABLE `order_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11), NOT NULL,
+  `name` VARCHAR(50),
+  `description` VARCHAR(255),
+  `quantity` INT(11),
+  `per_item_cost` DECIMAL(18,2),
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+
+INSERT into migrations VALUES (11);
+
+#=================================================Migration 11 ends=======================
+
+CREATE TABLE `offers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `promo_code` VARCHAR(11) NOT NULL,
+  `name` VARCHAR(50),
+  `description` VARCHAR(255),
+  `used_offer_count` int(11),
+  `available_offer_count` int(11),
+  `offer_type` VARCHAR(50),
+  `offer_value` DECIMAL(18,2),
+  `max_offer_limit` DECIMAL(18,2),
+  `start_date` datetime DEFAULT NULL,
+  `expiry_date` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+
+INSERT into migrations VALUES (12);
+
+#=================================================Migration 12 ends=======================
+
+ALTER TABLE restaurants
+ADD `friendly_url` VARCHAR(255) DEFAULT NULL;
+
+INSERT into migrations VALUES (13);
+
+#=================================================Migration 13 ends=======================
+
+alter table restaurants MODIFY open_time time NOT NULL Default 0;
+alter table restaurants MODIFY close_time time NOT NULL Default 0;
+
+INSERT into migrations VALUES (14);
+
+#=================================================Migration 14 ends=======================

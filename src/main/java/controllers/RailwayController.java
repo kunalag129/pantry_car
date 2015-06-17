@@ -6,8 +6,8 @@ import configs.ApplicationContext;
 import external.railway.RailwayService;
 import helpers.RailwayServiceHelper;
 import org.springframework.web.bind.annotation.*;
-import railways.Station;
 import railways.Train;
+import railways.TrainStoppage;
 import responseParams.PnrDetails;
 import responseParams.StationListDetails;
 import responseParams.TrainListDetails;
@@ -37,8 +37,8 @@ public class RailwayController {
         String trainName = pnrDetails.get("train_name").textValue();
         String doj = pnrDetails.get("doj").textValue();
         JsonNode trainRoute = RailwayService.getTrainRouteDetails(trainNum);
-        ArrayList<Station> stations = RailwayServiceHelper.getStationBetweenSourceAndDestinaton(trainRoute, srcStationCode, destStationCode);
-        return new PnrDetails(pnr, trainNum, trainName, srcStationCode, destStationCode, srcStationName, destStationName, doj, stations);
+        ArrayList<TrainStoppage> trainStoppages = RailwayServiceHelper.getStationBetweenSourceAndDestinaton(trainRoute, srcStationCode, destStationCode);
+        return new PnrDetails(pnr, trainNum, trainName, srcStationCode, destStationCode, srcStationName, destStationName, doj, trainStoppages);
     }
 
     @RequestMapping(value = "/get_trains_between_locations", method = RequestMethod.GET)
@@ -75,7 +75,7 @@ public class RailwayController {
         }
         JsonNode trainRoute = RailwayService.getTrainRouteDetails(trainNum);
         String trainName = trainRoute.get("train").get("name").textValue();
-        ArrayList<Station> stations = RailwayServiceHelper.getStationBetweenSourceAndDestinaton(trainRoute, sourceCode, destinationCode);
-        return new StationListDetails(src, dest, sourceCode, destinationCode, date, trainNum, trainName, stations);
+        ArrayList<TrainStoppage> trainStoppages = RailwayServiceHelper.getStationBetweenSourceAndDestinaton(trainRoute, sourceCode, destinationCode);
+        return new StationListDetails(src, dest, sourceCode, destinationCode, date, trainNum, trainName, trainStoppages);
     }
 }
