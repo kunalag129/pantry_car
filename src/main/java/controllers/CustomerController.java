@@ -43,7 +43,7 @@ public class CustomerController {
     String updateRememberToken(@PathVariable("emailId") String emailId, @RequestBody Customer cust) {
         Customer customer = Customer.getCustomerDetails("emailId",emailId);
         if(customer == null)
-            return ResponseError.notFound();
+            return ResponseError.notFound(null);
         else {
             customer.updateRememberToken(cust.getRememberToken());
             return Utils.giveResponse(204);
@@ -55,9 +55,35 @@ public class CustomerController {
     String setVerificationToken(@PathVariable("emailId") String emailId, @RequestBody Customer cust) {
         Customer customer = Customer.getCustomerDetails("emailId",emailId);
         if(customer == null)
-            return ResponseError.notFound();
+            return ResponseError.notFound(null);
         else {
             customer.updateVerificationToken(cust.getVerificationToken());
+            return Utils.giveResponse(204);
+        }
+    }
+
+    @RequestMapping(value = "/{emailId:.+}/update_password_reset_token", method = RequestMethod.PUT)
+    public @ResponseBody
+    String setPasswordResetToken(@PathVariable("emailId") String emailId, @RequestBody Customer cust) {
+        Customer customer = Customer.getCustomerDetails("emailId",emailId);
+        if(customer == null)
+            return ResponseError.notFound(null);
+        else {
+            customer.updatePasswordResetToken(cust.getPassResetToken());
+            return Utils.giveResponse(204);
+        }
+    }
+
+    @RequestMapping(value = "/{emailId:.+}/reset_password", method = RequestMethod.PUT)
+    public @ResponseBody
+    String resetPassword(@PathVariable("emailId") String emailId, @RequestBody Customer cust) {
+        Customer customer = Customer.getCustomerDetails("emailId",emailId);
+        if(customer == null)
+            return ResponseError.notFound(null);
+        else if (customer.getPassResetToken() == null)
+            return ResponseError.notFound("Invalid PassResetToken");
+        else {
+            customer.resetPassword(cust.getLoginPass());
             return Utils.giveResponse(204);
         }
     }
@@ -69,6 +95,7 @@ public class CustomerController {
         if(customer == null)
             return new Customer().updateResponseAttributes(false, 404, "Record not found");
         else {
+            customer.setVerificationToken(null);
             customer.setVerified(true);
             customer.update();
             return customer;

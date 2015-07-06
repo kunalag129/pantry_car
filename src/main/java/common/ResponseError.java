@@ -21,13 +21,16 @@ public class ResponseError {
     protected int code;
     protected String message;
 
-    public static String notFound() {
+    public static String notFound(String customMessage) {
         JsonNodeFactory nodeFactory = appContext.getNodeFactory();
         ObjectNode node = nodeFactory.objectNode();
         node.put("status",false);
         node.put("responseCode",404);
         ObjectNode error = nodeFactory.objectNode();
-        error.put("message", "Record not found");
+        if (customMessage == null)
+            error.put("message", "Record not found");
+        else
+            error.put("message", customMessage);
         node.set("error", error);
         return node.toString();
     }

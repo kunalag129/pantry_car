@@ -1,5 +1,8 @@
 package controllers;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import railways.Station;
@@ -20,6 +23,8 @@ import java.util.Map;
 @RestController
 public class RestaurantController {
 
+    private static final Logger logger = LoggerFactory.getLogger(RestaurantController.class);
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public @ResponseBody
     Restaurant post_call(@RequestBody Restaurant restaurant, BindingResult result) {
@@ -29,6 +34,7 @@ public class RestaurantController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public @ResponseBody
     Restaurant getRestaurant(@RequestParam("url") String url) {
+        logger.debug("getRestaurant is called");
         return Restaurant.getRestaurant("url", url, true);
     }
 

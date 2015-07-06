@@ -101,7 +101,7 @@ public class Restaurant extends Model {
     private Station station;
 
 
-    public Restaurant(String name, double distance, String contactNo, int openTime, int closeTime, int slaDetails, double minimumOrder, double deliveryCharges, boolean isOnline) {
+    public Restaurant(String name, double distance, String contactNo, Time openTime, Time closeTime, int slaDetails, double minimumOrder, double deliveryCharges, boolean isOnline) {
         this.name = name;
         this.distance = distance;
         this.contactNo = contactNo;

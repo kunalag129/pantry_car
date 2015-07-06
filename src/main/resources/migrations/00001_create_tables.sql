@@ -283,3 +283,10 @@ alter table restaurants MODIFY close_time time NOT NULL Default 0;
 INSERT into migrations VALUES (14);
 
 #=================================================Migration 14 ends=======================
+
+ALTER TABLE customers
+ADD `pass_reset_token` varchar(255) DEFAULT NULL;
+
+INSERT into migrations VALUES (15);
+
+#=================================================Migration 15 ends=======================

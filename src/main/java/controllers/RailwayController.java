@@ -44,6 +44,9 @@ public class RailwayController {
     @RequestMapping(value = "/get_trains_between_locations", method = RequestMethod.GET)
     public @ResponseBody
     TrainListDetails getTrainsBetweenLocations(@RequestParam("src") String sourceCode, @RequestParam("dest") String destinationCode, @RequestParam("date") String date) {
+        sourceCode = sourceCode.toUpperCase();
+        destinationCode = destinationCode.toUpperCase();
+
         HashMap<String, String> details = new HashMap<String, String>();
         details.put("fscode", sourceCode);
         details.put("tscode", destinationCode);
@@ -57,6 +60,9 @@ public class RailwayController {
     @RequestMapping(value = "/get_stations_between_locations", method = RequestMethod.GET)
     public @ResponseBody
     StationListDetails getStationsBetweenLocations(@RequestParam("src") String sourceCode, @RequestParam("dest") String destinationCode, @RequestParam("date") String date, @RequestParam("train") String trainNum) {
+        sourceCode = sourceCode.toUpperCase();
+        destinationCode = destinationCode.toUpperCase();
+
         HashMap<String, String> details = new HashMap<String, String>();
         details.put("fscode", sourceCode);
         details.put("tscode", destinationCode);

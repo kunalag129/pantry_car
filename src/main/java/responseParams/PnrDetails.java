@@ -26,7 +26,7 @@ public class PnrDetails extends ResponseParams{
     private String destStationCode;
     private String srcStationName;
     private String destStationName;
-    private String doj;
+    private String date;
     private ArrayList<TrainStoppage> trainStoppages;
 
 }

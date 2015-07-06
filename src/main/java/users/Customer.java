@@ -61,6 +61,9 @@ public class Customer extends Model {
     @Column(name = "is_verified")
     private boolean isVerified;
 
+    @Column(name = "pass_reset_token")
+    private String passResetToken;
+
     @JsonIgnore
     @OneToMany(mappedBy="customer", cascade={CascadeType.ALL})
     private List<Order> orders;
@@ -165,11 +168,24 @@ public class Customer extends Model {
         this.update();
     }
 
+    public void updatePasswordResetToken(String token) {
+        this.setPassResetToken(token);
+        this.update();
+    }
+
     public Customer updateResponseAttributes(boolean status, int responseCode, String errorMessage) {
         this.setStatus(status);
         this.setResponseCode(responseCode);
         this.setError(new ResponseError());
         this.getError().setMessage(errorMessage);
         return this;
+    }
+
+    public void resetPassword(String loginPass) {
+        Hibernate.initialize(this.getPassword());
+        this.getPassword().setPassword(loginPass);
+        this.getPassword().update();
+        this.setPassResetToken(null);
+        this.update();
     }
 }
