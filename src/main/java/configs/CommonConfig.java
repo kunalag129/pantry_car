@@ -49,8 +49,8 @@ public class CommonConfig {
     @Bean
     public Password password() { return new Password();}
 
-    @Bean
-    public Menu menu() { return  new Menu();}
+//    @Bean
+//    public Menu menu() { return  new Menu();}
 
     @Bean
     public Offer offer() { return new Offer();}
@@ -63,4 +63,10 @@ public class CommonConfig {
 
     @Bean
     public Station station() { return new Station();}
+
+    @Bean
+    public MenuCategory menuCategory() { return new MenuCategory();}
+
+    @Bean
+    public MenuItem menuItem() { return new MenuItem();}
 }

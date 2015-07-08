@@ -290,3 +290,35 @@ ADD `pass_reset_token` varchar(255) DEFAULT NULL;
 INSERT into migrations VALUES (15);
 
 #=================================================Migration 15 ends=======================
+
+
+create table categories (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `restaurant_id` int(11) NOT NULL,
+  `preference_order` int(11) NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+create table items (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(100) NULL,
+  `price` decimal(18,2) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `preference_order` int(11) NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+ALTER TABLE migrations
+ADD PRIMARY KEY (id);
+
+INSERT into migrations VALUES (16);
+
+#=================================================Migration 16 ends=======================

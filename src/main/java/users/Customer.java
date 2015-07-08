@@ -182,7 +182,9 @@ public class Customer extends Model {
     }
 
     public void resetPassword(String loginPass) {
+        Session session = appContext.getSession();
         Hibernate.initialize(this.getPassword());
+        appContext.closeSession();
         this.getPassword().setPassword(loginPass);
         this.getPassword().update();
         this.setPassResetToken(null);

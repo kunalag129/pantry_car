@@ -19,7 +19,7 @@ public abstract class Model {
 
     static ApplicationContext appContext = ApplicationContext.getInstance();
 
-    @JsonIgnore
+
     @Id @GeneratedValue
     @Column(name = "id")
     protected int id;

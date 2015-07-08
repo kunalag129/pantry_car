@@ -48,11 +48,13 @@ public class ApplicationContext {
                 .addAnnotatedClass(GoogleLogin.class)
                 .addAnnotatedClass(FacebookLogin.class)
                 .addAnnotatedClass(Password.class)
-                .addAnnotatedClass(Menu.class)
+//                .addAnnotatedClass(Menu.class)
                 .addAnnotatedClass(Offer.class)
                 .addAnnotatedClass(Order.class)
                 .addAnnotatedClass(OrderItem.class)
                 .addAnnotatedClass(Station.class)
+                .addAnnotatedClass(MenuCategory.class)
+                .addAnnotatedClass(MenuItem.class)
                 .configure();
         ServiceRegistry builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
         dbFactory = configuration.buildSessionFactory(builder);

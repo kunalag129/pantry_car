@@ -17,6 +17,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import railways.Station;
+import responseParams.MenuResponse;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -87,9 +88,13 @@ public class Restaurant extends Model {
     @OneToMany(mappedBy="restaurant", cascade={CascadeType.ALL})
     private List<TaxDetail> taxDetails = new ArrayList<TaxDetail>();
 
+//    @JsonIgnore
+//    @OneToOne(mappedBy="restaurant")
+//    private Menu menu;
+
     @JsonIgnore
-    @OneToOne(mappedBy="restaurant")
-    private Menu menu;
+    @OneToMany(mappedBy = "restaurant", cascade={CascadeType.ALL})
+    private List<MenuCategory> menuCategories;
 
     @JsonIgnore
     @OneToMany(mappedBy="restaurant", cascade={CascadeType.ALL})
@@ -140,6 +145,7 @@ public class Restaurant extends Model {
             Hibernate.initialize(rest.getTaxDetails());
             Hibernate.initialize(rest.getLocation());
             Hibernate.initialize(rest.getStation());
+            Hibernate.initialize(rest.getMenuCategories());
         }
         appContext.closeSession();
         return rest;
@@ -153,5 +159,20 @@ public class Restaurant extends Model {
     public void updateBankDetails(BankDetail bankDetail) {
         bankDetail.setRestaurant(this);
         BankDetail.findOrCreate(bankDetail);
+    }
+
+    public static Restaurant getRestaurntById(String id, boolean detailView) {
+        return getRestaurant("internalId", id, detailView);
+    }
+
+    public static MenuResponse getMenuByRestaurantId(String id) {
+        Restaurant restaurant = getRestaurntById(id, true);
+        MenuResponse menuResponse = new MenuResponse();
+        for(int i = 0; i < restaurant.getMenuCategories().size(); i++) {
+            MenuCategory category = restaurant.getMenuCategories().get(i);
+            category.loadItems();
+            menuResponse.addCategory(category.getName(), category.getMenuItems());
+        }
+        return menuResponse;
     }
 }
