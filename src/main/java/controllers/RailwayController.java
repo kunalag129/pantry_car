@@ -8,12 +8,14 @@ import helpers.RailwayServiceHelper;
 import org.springframework.web.bind.annotation.*;
 import railways.Train;
 import railways.TrainStoppage;
+import responseParams.PassengerDetails;
 import responseParams.PnrDetails;
 import responseParams.StationListDetails;
 import responseParams.TrainListDetails;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by kunal.agarwal on 05/05/15.
@@ -36,9 +38,17 @@ public class RailwayController {
         String trainNum = pnrDetails.get("train_num").textValue();
         String trainName = pnrDetails.get("train_name").textValue();
         String doj = pnrDetails.get("doj").textValue();
+        String boardingClass = pnrDetails.get("class").textValue();
+        String chartedPrepared = pnrDetails.get("chart_prepared").textValue();
+        List<PassengerDetails> passengers = new ArrayList<PassengerDetails>();
+        for(int i =0; i< pnrDetails.get("passengers").size(); i++)
+        {
+            JsonNode temp =  pnrDetails.get("passengers").get(i);
+            passengers.add(new PassengerDetails(temp.get("booking_status").textValue(),temp.get("current_status").textValue()));
+        }
         JsonNode trainRoute = RailwayService.getTrainRouteDetails(trainNum);
         ArrayList<TrainStoppage> trainStoppages = RailwayServiceHelper.getStationBetweenSourceAndDestinaton(trainRoute, srcStationCode, destStationCode);
-        return new PnrDetails(pnr, trainNum, trainName, srcStationCode, destStationCode, srcStationName, destStationName, doj, trainStoppages);
+        return new PnrDetails(pnr, trainNum, trainName, srcStationCode, destStationCode, srcStationName, destStationName, doj, trainStoppages, boardingClass, chartedPrepared, passengers);
     }
 
     @RequestMapping(value = "/get_trains_between_locations", method = RequestMethod.GET)

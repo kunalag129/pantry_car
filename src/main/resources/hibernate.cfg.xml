@@ -10,23 +10,23 @@
             com.mysql.jdbc.Driver
         </property>
 
-        <property name="hibernate.connection.url">
-            jdbc:mysql://pantry-car-dev.cp7t2sczmqdd.us-west-2.rds.amazonaws.com/pantry_car?autoReconnect=true
-        </property>
-        <property name="hibernate.connection.username">
-            pantry
-        </property>
-        <property name="hibernate.connection.password">
-            adminadmin
-        </property>
         <!--<property name="hibernate.connection.url">-->
-            <!--jdbc:mysql://localhost/pantry_car-->
+            <!--jdbc:mysql://pantry-car-dev.cp7t2sczmqdd.us-west-2.rds.amazonaws.com/pantry_car?autoReconnect=true-->
         <!--</property>-->
         <!--<property name="hibernate.connection.username">-->
-            <!--root-->
+            <!--pantry-->
         <!--</property>-->
         <!--<property name="hibernate.connection.password">-->
+            <!--adminadmin-->
         <!--</property>-->
+        <property name="hibernate.connection.url">
+            jdbc:mysql://localhost/pantry_car
+        </property>
+        <property name="hibernate.connection.username">
+            root
+        </property>
+        <property name="hibernate.connection.password">
+        </property>
         <property name="hibernate.show_sql">
             true
         </property>

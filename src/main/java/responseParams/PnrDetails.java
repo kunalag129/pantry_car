@@ -8,6 +8,7 @@ import lombok.Setter;
 import railways.TrainStoppage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kunal.agarwal on 06/05/15.
@@ -28,5 +29,8 @@ public class PnrDetails extends ResponseParams{
     private String destStationName;
     private String date;
     private ArrayList<TrainStoppage> trainStoppages;
+    private String boardingClass;
+    private String chartedPrepared;
+    private List<PassengerDetails> passengers;
 
 }
