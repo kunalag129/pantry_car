@@ -1,6 +1,7 @@
 package controllers;
 
 import orders.Order;
+import orders.OrderItem;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,8 @@ public class OrderController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public @ResponseBody
     Order post_call(@RequestBody Order order, BindingResult result) {
+        if(OrderItem.validateItems(order.getOrderItems())== false)
+            return null;
         return Order.createNewOrder(order);
     }
 }

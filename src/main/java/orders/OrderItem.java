@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import restaurants.MenuItem;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by kunal.agarwal on 21/05/15.
@@ -40,4 +42,16 @@ public class OrderItem extends Model {
     @Column(name = "quantity")
     private int quantity;
 
+    @ManyToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name="menu_item_id")
+    private MenuItem menuItem;
+
+    public static boolean validateItems(List<OrderItem> orderItems) {
+        for(OrderItem orderItem:orderItems) {
+            MenuItem menuItem1 = orderItem.getMenuItem();
+            if(orderItem.getPerItemCost()!=menuItem1.getPrice())
+                return false;
+        }
+        return true;
+    }
 }

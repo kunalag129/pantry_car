@@ -1,0 +1,30 @@
+*.idea/**
+*.iml
+*.class
+*.ipr
+*.iws
+*.DS_Store
+# Package Files #
+*.jar
+*.war
+*.ear
+*.log
+*.rdb
+*capfile
+*.bin
+*build/**
+
+.idea/**
+.gradle/**
+
+# Target directory #
+*logs/**
+*target/**
+*.idea/**
+*build/**
+*out/**
+*javadoc/**
+docs/build/**
+caches/
+daemon/
+~

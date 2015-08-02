@@ -9,9 +9,9 @@
         <property name="hibernate.connection.driver_class">
             com.mysql.jdbc.Driver
         </property>
-         Assume test is the database name
+
         <property name="hibernate.connection.url">
-            jdbc:mysql://aa1ajl6w3ohriy9.cp7t2sczmqdd.us-west-2.rds.amazonaws.com/pantry_car
+            jdbc:mysql://pantry-car-dev.cp7t2sczmqdd.us-west-2.rds.amazonaws.com/pantry_car?autoReconnect=true
         </property>
         <property name="hibernate.connection.username">
             pantry
@@ -28,6 +28,12 @@
         <!--<property name="hibernate.connection.password">-->
         <!--</property>-->
         <property name="hibernate.show_sql">
+            true
+        </property>
+        <property name="hibernate.format_sql">
+            true
+        </property>
+        <property name="hibernate.use_sql_comments">
             true
         </property>
         <!-- List of XML mapping files -->

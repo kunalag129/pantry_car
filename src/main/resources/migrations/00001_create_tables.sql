@@ -322,3 +322,10 @@ ADD PRIMARY KEY (id);
 INSERT into migrations VALUES (16);
 
 #=================================================Migration 16 ends=======================
+
+ALTER TABLE order_items
+ADD `menu_item_id` int(11);
+
+INSERT into migrations VALUES (17);
+
+#=================================================Migration 17 ends=======================

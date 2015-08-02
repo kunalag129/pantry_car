@@ -20,12 +20,12 @@ apply plugin: 'war'
 
 war {
     baseName = 'pantry_car'
-    version =  '1.8.0'
+    version =  '1.8.2'
 }
 
 jar {
     baseName = 'pantry_car'
-    version = '1.8.0'
+    version = '1.8.2'
 }
 
 repositories {
